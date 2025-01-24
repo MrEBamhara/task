@@ -10,11 +10,30 @@ class LandingPage extends Model
     use HasFactory;
 
     protected $fillable = [
-        'header',         // Ensure 'header' is listed here
-        'title',
-        'subtitle',
-        'content',
+        'header',
+        'hero',
+        'about',
+        'features',
+        'testimonials',
+        'services',
+        'pricing_plans',
+        'faq',
+        'contact',
         'footer',
-        'image',         // Add other attributes you want to allow
     ];
+
+    protected $casts = [
+        'header' => 'array',
+        'hero' => 'array',
+        'about' => 'array',
+        'features' => 'array',
+        'testimonials' => 'array',
+        'services' => 'array',
+        'pricing_plans' => 'array',
+        'faq' => 'array',
+        'contact' => 'array',
+        'footer' => 'array',
+    ];
+
+
 }

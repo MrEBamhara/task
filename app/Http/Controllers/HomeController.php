@@ -9,7 +9,8 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $sections = LandingPage::all();
-        return view('home', compact('sections'));
+//        $sections = LandingPage::all();
+        $data = LandingPage::all();
+        return view('home', compact('data'));
     }
 }

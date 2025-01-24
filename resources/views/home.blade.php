@@ -29,10 +29,15 @@
 {{-- Header Section --}}
 <header>
     <div class="container">
-        <img src="{{ json_decode($sections->header)->logo }}" alt="Logo" />
+
+        @php
+            $sections = isset($data[0])  ? $data[0] : null;
+        @endphp
+
+        <img src="assets/img/logo.png" alt="">
         <nav>
-            @foreach(json_decode($sections->header)->navigation as $link)
-                <a href="{{ $link->link }}">{{ $link->label }}</a>
+            @foreach($sections->header['navigation'] as $link)
+                <a href="{{ $link['link'] }}">{{ $link['label'] }}</a>
             @endforeach
         </nav>
     </div>
@@ -41,12 +46,12 @@
 {{-- Hero Section --}}
 <section id="hero" class="hero section">
     <div class="container">
-        <h1>{{ json_decode($sections->hero)->heading }}</h1>
-        <p>{{ json_decode($sections->hero)->subheading }}</p>
-        <img src="{{ json_decode($sections->hero)->image }}" alt="Hero Image">
+        <h1>{{ $sections->hero['heading'] }}</h1>
+        <p>{{ $sections->hero['subheading'] }}</p>
+        <img src="{{$sections->hero['image'] }}" alt="Hero Image">
         <div class="highlights">
-            @foreach(json_decode($sections->hero)->highlights as $highlight)
-                <span>{{ $highlight }}</span>
+            @foreach($sections['hero']['highlights'] as $highlight)
+                <span>{{ $array[$highlight] ?? 'Not available' }}</span>
             @endforeach
         </div>
     </div>
@@ -55,21 +60,21 @@
 {{-- About Section --}}
 <section id="about" class="about section">
     <div class="container">
-        <h2>{{ json_decode($sections->about)->title }}</h2>
-        <p>{{ json_decode($sections->about)->description }}</p>
-        <img src="{{ json_decode($sections->about)->image }}" alt="About Image">
+        <h2>{{ $sections->about['heading'] }}</h2>
+        <p>{{ $sections->about['description'] }}</p>
+        <img src="{{ $sections->about['image'] }}" alt="About Image">
     </div>
 </section>
 
 {{-- Features Section --}}
 <section id="features" class="features section">
     <div class="container">
-        <h2>{{ json_decode($sections->features)->title }}</h2>
+        <h2>{{$sections->features[0]['title'] }}</h2>
         <div class="features-grid">
-            @foreach(json_decode($sections->features)->items as $feature)
+            @foreach($sections->features as $feature)
                 <div class="feature-item">
-                    <h3>{{ $feature->title }}</h3>
-                    <p>{{ $feature->description }}</p>
+                    <h3>{{ $feature['title'] }}</h3>
+                    <p>{{ $feature['description'] }}</p>
                 </div>
             @endforeach
         </div>
@@ -79,13 +84,13 @@
 {{-- Testimonials Section --}}
 <section id="testimonials" class="testimonials section">
     <div class="container">
-        <h2>{{ json_decode($sections->testimonials)->title }}</h2>
+        <h2>Testimonials</h2>
         <div class="testimonials-grid">
-            @foreach(json_decode($sections->testimonials)->items as $testimonial)
+            @foreach($sections->testimonials as $testimonial)
                 <div class="testimonial-item">
-                    <img src="{{ $testimonial->avatar }}" alt="{{ $testimonial->name }}">
-                    <h3>{{ $testimonial->name }}</h3>
-                    <p>"{{ $testimonial->quote }}"</p>
+                    <img src="{{ $testimonial['client_image'] }}" alt="{{ $testimonial['client_name'] }}">
+                    <h3>{{ $testimonial['client_name'] }}</h3>
+                    <p>"{{ $testimonial['review'] }}"</p>
                 </div>
             @endforeach
         </div>
@@ -95,12 +100,12 @@
 {{-- Services Section --}}
 <section id="services" class="services section">
     <div class="container">
-        <h2>{{ json_decode($sections->services)->title }}</h2>
+        <h2>Services</h2>
         <div class="services-grid">
-            @foreach(json_decode($sections->services)->items as $service)
+            @foreach($sections->services as $service)
                 <div class="service-item">
-                    <h3>{{ $service->name }}</h3>
-                    <p>{{ $service->description }}</p>
+                    <h3>{{ $service['service_title'] }}</h3>
+                    <p>{{ $service['service_description'] }}</p>
                 </div>
             @endforeach
         </div>
@@ -110,16 +115,20 @@
 {{-- Pricing Section --}}
 <section id="pricing" class="pricing section">
     <div class="container">
-        <h2>{{ json_decode($sections->pricing_plans)->title }}</h2>
+        <h2>Pricing</h2>
         <div class="pricing-grid">
-            @foreach(json_decode($sections->pricing_plans)->plans as $plan)
+            @foreach($sections->pricing_plans as $plan)
                 <div class="pricing-item">
-                    <h3>{{ $plan->name }}</h3>
-                    <p>{{ $plan->price }}</p>
+                    <h3>{{ $plan['plan_name'] }}</h3>
+                    <p>{{ $plan['price'] }}</p>
                     <ul>
-                        @foreach($plan->features as $feature)
-                            <li>{{ $feature }}</li>
-                        @endforeach
+                        @if (!empty($plan['features']))
+                            @foreach ($plan['features'] as $feature)
+                                <li>{{ $feature }}</li>
+                            @endforeach
+                        @else
+                            <li>No features available</li>
+                        @endif
                     </ul>
                 </div>
             @endforeach
@@ -130,12 +139,12 @@
 {{-- FAQ Section --}}
 <section id="faq" class="faq section">
     <div class="container">
-        <h2>{{ json_decode($sections->faq)->title }}</h2>
+        <h2>FAQ</h2>
         <div class="faq-items">
-            @foreach(json_decode($sections->faq)->questions as $question)
+            @foreach($sections->faq as $question)
                 <div class="faq-item">
-                    <h3>{{ $question->question }}</h3>
-                    <p>{{ $question->answer }}</p>
+                    <h3>{{ $question['question'] }}</h3>
+                    <p>{{ $question['answer'] }}</p>
                 </div>
             @endforeach
         </div>
@@ -145,13 +154,13 @@
 {{-- Contact Section --}}
 <section id="contact" class="contact section">
     <div class="container">
-        <h2>{{ json_decode($sections->contact)->title }}</h2>
+        <h2>Contact Us</h2>
         <div class="contact-info">
-            <p>Email: {{ json_decode($sections->contact)->email }}</p>
-            <p>Phone: {{ json_decode($sections->contact)->phone }}</p>
-            <p>Address: {{ json_decode($sections->contact)->address }}</p>
+            <p>Email: {{ $sections->contact['email'] }}</p>
+            <p>Phone: {{ $sections->contact['phone'] }}</p>
+            <p>Address: {{ $sections->contact['address'] }}</p>
         </div>
-        <form action="{{ route('contact.send') }}" method="POST">
+        <form action="{{ url('contact.send') }}" method="POST">
             @csrf
             <input type="text" name="name" placeholder="Your Name" required>
             <input type="email" name="email" placeholder="Your Email" required>
@@ -164,11 +173,11 @@
 {{-- Footer Section --}}
 <footer id="footer" class="footer">
     <div class="container">
-        <p>{{ json_decode($sections->footer)->text }}</p>
+        <p>{{ $sections->footer['text'] }}</p>
         <nav>
-            @foreach(json_decode($sections->footer)->links as $link)
-                <a href="{{ $link->url }}">{{ $link->label }}</a>
-            @endforeach
+{{--            @foreach($sections->footer['links'] as $link)--}}
+{{--                <a href="{{ $link['url'] }}">{{ $link['label'] }}</a>--}}
+{{--            @endforeach--}}
         </nav>
     </div>
 </footer>
