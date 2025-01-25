@@ -24,36 +24,103 @@
     <link href="{{ asset('front/assets/css/main.css') }}" rel="stylesheet">
 
 </head>
-<body>
-
+<body class="index-page">
+@php
+    $sections = isset($data[0])  ? $data[0] : null;
+@endphp
 {{-- Header Section --}}
-<header>
-    <div class="container">
+<header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+    <a href="/" class="logo d-flex align-items-center me-auto me-xl-0">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <h1 class="sitename">Task</h1>
+    </a>
 
-        @php
-            $sections = isset($data[0])  ? $data[0] : null;
-        @endphp
-
-        <img src="assets/img/logo.png" alt="">
-        <nav>
+        <nav id="navmenu" class="navmenu">
+            <ul>
             @foreach($sections->header['navigation'] as $link)
-                <a href="{{ $link['link'] }}">{{ $link['label'] }}</a>
+                    <li> <a href="{{ $link['link'] }}">{{ $link['label'] }}</a></li>
             @endforeach
+            </ul>
         </nav>
     </div>
 </header>
-
+<main class="main">
 {{-- Hero Section --}}
 <section id="hero" class="hero section">
-    <div class="container">
-        <h1>{{ $sections->hero['heading'] }}</h1>
-        <p>{{ $sections->hero['subheading'] }}</p>
-        <img src="{{$sections->hero['image'] }}" alt="Hero Image">
-        <div class="highlights">
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+{{--        <h1>{{ $sections->hero['heading'] }}</h1>--}}
+{{--        <p>{{ $sections->hero['subheading'] }}</p>--}}
+{{--        <img src="{{$sections->hero['image'] }}" alt="Hero Image">--}}
+{{--        <div class="highlights">--}}
+{{--            @foreach($sections['hero']['highlights'] as $highlight)--}}
+{{--                <span>{{ $array[$highlight] ?? 'Not available' }}</span>--}}
+{{--            @endforeach--}}
+{{--        </div>--}}
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="hero-content" data-aos="fade-up" data-aos-delay="200">
+                    <div class="company-badge mb-4">
+                        <i class="bi bi-gear-fill me-2"></i>
+                        {{ $sections->hero['heading'] }}
+                    </div>
+
+                    <h1 class="mb-4">
+                        {{ $sections->hero['subheading'] }}
+                        <span class="accent-text">Vestibulum Ante</span>
+                    </h1>
+
+                    <p class="mb-4 mb-md-5">
+                        Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt.
+                        Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna.
+                    </p>
+
+                    <div class="hero-buttons">
+                        <a href="#about" class="btn btn-primary me-0 me-sm-2 mx-1">Get Started</a>
+                        <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="btn btn-link mt-2 mt-sm-0 glightbox">
+                            <i class="bi bi-play-circle me-1"></i>
+                            Play Video
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="hero-image" data-aos="zoom-out" data-aos-delay="300">
+{{--                    <img src="{{$sections->hero['image'] }}" alt="Hero Image" class="img-fluid">--}}
+                    <img src="{{ asset('front/assets/img/illustration-1.webp') }}" alt="Hero Image" class="img-fluid">
+                    <div class="customers-badge">
+                        <div class="customer-avatars">
+                            <img src="{{ asset('front/assets/img/avatar-1.webp') }}" alt="Customer 1" class="avatar">
+                            <img src="{{ asset('front/assets/img/avatar-2.webp') }}" alt="Customer 2" class="avatar">
+                            <img src="{{ asset('front/assets/img/avatar-3.webp') }}" alt="Customer 3" class="avatar">
+                            <img src="{{ asset('front/assets/img/avatar-4.webp') }}" alt="Customer 4" class="avatar">
+                            <img src="{{ asset('front/assets/img/avatar-5.webp') }}" alt="Customer 5" class="avatar">
+                            <span class="avatar more">12+</span>
+                        </div>
+                        <p class="mb-0 mt-2">12,000+ lorem ipsum dolor sit amet consectetur adipiscing elit</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row stats-row gy-4 mt-5" data-aos="fade-up" data-aos-delay="500">
             @foreach($sections['hero']['highlights'] as $highlight)
-                <span>{{ $array[$highlight] ?? 'Not available' }}</span>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="bi bi-trophy"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h4>{{ $array[$highlight] ?? 'Not available' }}</h4>
+                            <p class="mb-0">Vestibulum ante ipsum</p>
+                        </div>
+                    </div>
+                </div>
             @endforeach
         </div>
+
     </div>
 </section>
 
@@ -169,7 +236,7 @@
         </form>
     </div>
 </section>
-
+</main>
 {{-- Footer Section --}}
 <footer id="footer" class="footer">
     <div class="container">
